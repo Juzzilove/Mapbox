@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>BIM Model in Mapbox</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  
+  <!-- Mapbox GL JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.0/mapbox-gl.css" rel="stylesheet">
+
+  <style>
+    body { margin:0; padding:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+  // 🔹 Replace this with your own Mapbox Access Token
+  mapboxgl.accessToken = 'pk.eyJ1IjoianVzdGluMTk5MyIsImEiOiJjbWZtNjUzYTEwYjZhMmpzNjNvc2ZjdTgwIn0.wXLmC7uNQCq50D-WrcvwYg';
+
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/satellite-streets-v12',
+    center: [18.4233, -33.9189], // 🔹 Replace with your model’s longitude, latitude
+    zoom: 17,
+    pitch: 60,
+    bearing: -20,
+    antialias: true
+  });
+
+  map.on('style.load', () => {
+    map.addSource('bim-model', {
+      type: 'model',
+      url: 'https://github.com/Juzzilove/Mapbox./tester.glb', // 🔹 Replace with your hosted .glb URL
+      scale: [0.001, 0.001, 0.001], // 🔹 Adjust if your model is too big/small
+      orientation: [0, 0, 0],       // 🔹 Rotate if needed
+      position: [51.736296437877776, 0.4690476649911358] // 🔹 Same coords as map center
+    });
+
+    map.addLayer({
+      id: 'bim-layer',
+      type: 'model',
+      source: 'bim-model'
+    });
+  });
+</script>
+</body>
+</html>
